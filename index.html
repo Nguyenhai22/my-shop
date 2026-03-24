@@ -25,7 +25,7 @@
       <a href="#">Trang Chủ</a>
       <a href="#collections">Bộ Sưu Tập</a>
       <a href="#new">Sản Phẩm Mới</a>
-      <a href="#about">Về Chúng Tôi</a>
+      <a href="javascript:void(0)" id="navAbout">Về Chúng Tôi</a>
     </nav>
 
     <div class="actions">
@@ -85,7 +85,7 @@
       <option value="priceAsc">Giá: thấp → cao</option>
       <option value="priceDesc">Giá: cao → thấp</option>
     </select>
-    <button class="btn-outline" id="btnExport">Xuất CSV</button>
+    <!-- <button class="btn-outline" id="btnExport">Xuất CSV</button> -->
   </div>
 </div>
 
@@ -202,10 +202,26 @@
     <button id="closeAbout" class="close-about"><i class="fas fa-times"></i></button>
     <h3>The Linh's Closet — Thuê Thời Trang Cao Cấp</h3>
     <p><strong>Hotline:</strong><span class="hotline">098 117 6563</span></p>
-    <p><strong>Email:</strong> huuhails22@gmail.com</p>
-    <p><strong>Địa chỉ:</strong> Minh Khai - Hà Nội</p>
-    <p><strong>Facebook:</strong>  <a href="https://www.facebook.com/nguyen.hai.274028" target="_blank">The Linh's Closet</a></p>
-    <p><strong>Zalo:</strong> <a href="https://zalo.me/0981176563">Nguyễn Hải</a></p>
+    <p><strong>Email:</strong><span>huuhails22@gmail.com</span></p>
+    <p><strong>Địa chỉ:</strong><span>Minh Khai - Hà Nội</span></p>
+    <p><strong>Facebook:</strong><a href="https://www.facebook.com/nguyen.hai.274028" target="_blank">The Linh's Closet</a></p>
+    <p><strong>Zalo:</strong><a href="https://zalo.me/0981176563" target="_blank">Nguyễn Hải</a></p>
+  </div>
+</div>
+
+<div class="wishlist-badge">
+  <button class="icon-btn" id="btnOpenWishlist" title="Yêu thích"><i class="far fa-heart"></i></button>
+  <span id="wishlistCount" class="cart-count" style="display:none">0</span>
+</div>
+
+<div class="price-summary" style="margin: 15px 0; padding: 10px; background: #f9f9f9; border-radius: 8px;">
+  <div style="display:flex; justify-content:space-between">
+    <span>Số ngày thuê:</span>
+    <span id="liveDays">0</span>
+  </div>
+  <div style="display:flex; justify-content:space-between; font-weight:700; color:var(--primary)">
+    <span>Tạm tính:</span>
+    <span id="liveTotal">0 VNĐ</span>
   </div>
 </div>
 </body>

@@ -151,3 +151,86 @@ nav.main-nav a:hover{background:var(--glass)}
   z-index: 9999;
 }
 .modal-overlay.active { display: flex; }
+
+/* Nút yêu thích trên ảnh sản phẩm */
+.card .img { position: relative; }
+.wishlist-btn {
+    position: absolute; top: 12px; right: 12px;
+    background: #fff; border: none; width: 35px; height: 35px;
+    border-radius: 50%; cursor: pointer; display: flex;
+    align-items: center; justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s;
+}
+.wishlist-btn.active { color: #e23; }
+.wishlist-btn:hover { transform: scale(1.1); }
+
+/* Nhãn trạng thái */
+.stock-tag {
+    position: absolute; bottom: 10px; left: 10px;
+    background: rgba(0,0,0,0.7); color: #fff;
+    padding: 4px 10px; border-radius: 6px; font-size: 0.75rem;
+}
+
+/* Hiệu ứng vô hiệu hóa nút khi hết hàng */
+.btn-primary:disabled {
+    background: #ccc; cursor: not-allowed;
+}
+
+/* Header Badge cho Wishlist */
+.wishlist-badge { position: relative; margin-right: 5px; }
+
+/* About info modal tối ưu */
+.about-info {
+  display: none; 
+  position: fixed; 
+  top: 0; left: 0; 
+  width: 100%; height: 100%; 
+  background: rgba(0,0,0,0.7); /* Làm nền tối hơn để nổi bật thông tin */
+  z-index: 9999; 
+  justify-content: center; 
+  align-items: center;
+  backdrop-filter: blur(4px); /* Thêm hiệu ứng mờ nền chuẩn cao cấp */
+}
+
+.about-card {
+  background: #fff; 
+  padding: 30px; 
+  border-radius: 20px; /* Bo góc mềm mại hơn */
+  border: none; /* Bỏ viền vàng cũ nếu muốn hiện đại hơn */
+  max-width: 450px; 
+  width: 90%; 
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3); 
+  text-align: left; /* Căn lề trái cho dễ đọc thông tin liên hệ */
+  position: relative;
+  animation: fadeInDown 0.4s ease; /* Thêm hiệu ứng hiện ra từ trên xuống */
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.about-card h3 {
+  color: var(--primary);
+  font-family: 'Playfair Display', serif;
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.about-card p {
+  margin: 12px 0;
+  display: flex;
+  justify-content: space-between;
+}
+/* Thêm đoạn này vào file style.css */
+.about-info.active {
+  display: flex !important; /* Ghi đè thuộc tính display:none */
+}
+
+.about-card {
+  position: relative;
+  z-index: 10001;
+}
+.lang-btn.active { color: var(--primary); font-weight: bold; }
+
