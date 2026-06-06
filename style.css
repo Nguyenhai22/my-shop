@@ -59,7 +59,7 @@ nav.main-nav a:hover{background:var(--glass)}
 .toolbar{max-width:1200px;margin:20px auto;padding:12px 20px;display:flex;gap:14px;align-items:center}
 .search{flex:1;display:flex;gap:8px;align-items:center}
 .search input{flex:1;padding:12px 14px;border-radius:10px;border:1px solid #e6e8ee}
-.filters{display:flex;gap:8px;align-items:center}
+.filters{display:flex;gap:6px;align-items:center}
 .select, .btn, .btn-outline{padding:10px 12px;border-radius:10px;border:1px solid #e6e8ee;background:#fff}
 .btn-outline{background:#fff}
 
@@ -234,3 +234,56 @@ nav.main-nav a:hover{background:var(--glass)}
 }
 .lang-btn.active { color: var(--primary); font-weight: bold; }
 
+/* Nút nổi góc dưới bên phải */
+.floating-contact {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    z-index: 9990;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.contact-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+.contact-btn:hover { transform: scale(1.1); }
+.btn-zalo { background: #0084ff; }
+.btn-phone { background: #28a745; }
+.btn-fb { background: #4267B2; }
+
+/* Bảng hướng dẫn size */
+.size-guide-link { 
+    display: inline-block;
+    margin-top: 10px; 
+    color: var(--accent); 
+    text-decoration: underline; 
+    cursor: pointer; 
+    font-weight: 600;
+}
+.size-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+.size-table th, .size-table td { border: 1px solid #eee; padding: 10px; text-align: center; }
+/* Nút nổi bên trái */
+.floating-contact {
+    position: fixed; bottom: 30px; right: 30px; z-index: 9990;
+    display: flex; flex-direction: column; gap: 10px;
+}
+.contact-btn {
+    width: 50px; height: 50px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+.btn-zalo { background: #0084ff; }
+.btn-phone { background: #28a745; }
+.btn-fb { background: #4267B2; }
