@@ -62,8 +62,26 @@ function generateVietQR(amount, orderInfo) {
     return `https://img.vietqr.io/image/${bankConfig.bankId}-${bankConfig.accountNo}-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(orderInfo)}&accountName=${encodeURIComponent(bankConfig.accountName)}`;
 }
 
+// Bảng hướng dẫn chọn size
+function showSizeGuide() {
+    const html = `
+    <div id="sizeGuideModal" class="about-info active" style="display:flex">
+        <div class="about-card" style="padding:20px; max-width:400px; display:block;">
+            <button onclick="document.getElementById('sizeGuideModal').remove()" style="float:right; border:none; background:none; cursor:pointer;">✕</button>
+            <h3>Hướng dẫn chọn Size</h3>
+            <table class="size-table" style="width:100%; border-collapse:collapse; margin-top:10px;">
+                <tr><th style="border:1px solid #ddd; padding:8px;">Size</th><th style="border:1px solid #ddd; padding:8px;">Vòng Ngực</th><th style="border:1px solid #ddd; padding:8px;">Vòng Eo</th></tr>
+                <tr><td style="border:1px solid #ddd; padding:8px;">S</td><td style="border:1px solid #ddd; padding:8px;">80-84</td><td style="border:1px solid #ddd; padding:8px;">62-66</td></tr>
+                <tr><td style="border:1px solid #ddd; padding:8px;">M</td><td style="border:1px solid #ddd; padding:8px;">85-88</td><td style="border:1px solid #ddd; padding:8px;">67-70</td></tr>
+                <tr><td style="border:1px solid #ddd; padding:8px;">L</td><td style="border:1px solid #ddd; padding:8px;">89-92</td><td style="border:1px solid #ddd; padding:8px;">71-74</td></tr>
+            </table>
+        </div>
+    </div>`;
+    document.body.insertAdjacentHTML('beforeend', html);
+}
+
 /* ============================================================
-   3. MODULE SẢN PHẨM & HIỂN THỊ (PRODUCT MODULE)
+   3. MODULE SẢN PHẨM & HIỂN THỊ
    ============================================================ */
 async function loadProductsFromSheet() {
     try {
@@ -91,8 +109,8 @@ function renderProducts(list = PRODUCTS) {
         const el = document.createElement('div');
         el.className = 'card';
         el.innerHTML = `
-            <div class="img">
-                <img src="${p.images[0]}" alt="${title}" loading="lazy" onclick="window.openModalById('${p.id}')">
+            <div class="img" style="cursor:pointer" onclick="openModalById('${p.id}')">
+                <img src="${p.images[0]}" alt="${title}" loading="lazy">
                 <button class="wishlist-btn ${isWishlisted ? 'active' : ''}" onclick="event.stopPropagation(); window.toggleWishlist('${p.id}')">
                     <i class="${isWishlisted ? 'fas' : 'far'} fa-heart"></i>
                 </button>
@@ -100,10 +118,9 @@ function renderProducts(list = PRODUCTS) {
             </div>
             <div class="body">
                 <div style="display:flex;justify-content:space-between;align-items:center">
-                    <strong onclick="window.openModalById('${p.id}')" style="cursor:pointer">${title}</strong>
+                    <strong onclick="openModalById('${p.id}')" style="cursor:pointer">${title}</strong>
                     <div style="color:var(--muted);font-size:.9rem">${p.id}</div>
                 </div>
-                
                 <div class="rating-box" style="margin: 8px 0; display: flex; align-items: center; gap: 6px;">
                     <div class="rating" data-id="${p.id}" style="display: flex; gap: 2px;">
                         ${[1, 2, 3, 4, 5].map(i => `
@@ -111,9 +128,7 @@ function renderProducts(list = PRODUCTS) {
                         `).join('')}
                     </div>
                     <span style="font-size: 13px; color: #ff9800; font-weight: 600;">${ratingData.avg}</span>
-                    <span style="font-size: 12px; color: var(--muted);">(${ratingData.count} ${t('đánh giá','reviews')})</span>
                 </div>
-
                 <div class="price">${formatVND(p.price)} / ${t('ngày', 'day')}</div>
                 <div class="actions">
                     <button class="btn-outline view-btn" data-id="${p.id}">${t('Chi tiết', 'View')}</button>
@@ -127,9 +142,7 @@ function renderProducts(list = PRODUCTS) {
     });
 }
 
-window.openModalById = openModalById;
-
-function openModalById(id) {
+window.openModalById = function(id) {
     const p = PRODUCTS.find(x => x.id === id);
     if (!p) return;
     currentProduct = p;
@@ -142,24 +155,15 @@ function openModalById(id) {
     document.getElementById('modalCategory').textContent = p.category.toUpperCase();
     document.getElementById('modalCode').textContent = p.id;
 
-    const today = new Date().toISOString().slice(0, 10);
-    document.getElementById('rentStart').value = today; 
-    document.getElementById('rentEnd').value = today;
-    document.getElementById('rentSize').value = 'M';
-    document.getElementById('rentNote').value = '';
-    
-    // Dịch nhãn trong Modal
-    const startLabel = document.querySelector('label[for="rentStart"]');
-    if(startLabel) startLabel.textContent = t('Ngày thuê:', 'Start Date:');
-    const endLabel = document.querySelector('label[for="rentEnd"]');
-    if(endLabel) endLabel.textContent = t('Ngày trả:', 'End Date:');
-    const addBtn = document.getElementById('addToCartModal');
-    if(addBtn) addBtn.textContent = t('Thêm vào giỏ hàng', 'Add to Cart');
+    // Thêm link bảng size vào modal
+    const sizeContainer = document.getElementById('rentSize').parentElement;
+    if(!document.getElementById('sizeLink')) {
+        sizeContainer.insertAdjacentHTML('beforeend', '<span id="sizeLink" class="size-guide-link" style="display:block; margin-top:5px; cursor:pointer; color:var(--primary); text-decoration:underline;" onclick="showSizeGuide()">Xem bảng hướng dẫn chọn size</span>');
+    }
 
-    updateLivePrice();
     document.getElementById('productModal').classList.add('active');
-}
-
+    updateLivePrice();
+};
 /* ============================================================
    4. MODULE GIỎ HÀNG & LOGIC THUÊ
    ============================================================ */
@@ -411,3 +415,20 @@ document.addEventListener('DOMContentLoaded', () => {
     setLang(lang); 
     loadProductsFromSheet();
 });
+// 1. Tạo Popup bảng size (gọi hàm này khi người dùng click vào link hướng dẫn size)
+function showSizeGuide() {
+    const html = `
+    <div id="sizeGuideModal" class="modal active">
+        <div class="modal-card" style="padding:20px; max-width:400px; display:block;">
+            <h3>Hướng dẫn chọn Size</h3>
+            <table class="size-table">
+                <tr><th>Size</th><th>Vòng Ngực</th><th>Vòng Eo</th></tr>
+                <tr><td>S</td><td>80-84</td><td>62-66</td></tr>
+                <tr><td>M</td><td>85-88</td><td>67-70</td></tr>
+                <tr><td>L</td><td>89-92</td><td>71-74</td></tr>
+            </table>
+            <button onclick="document.getElementById('sizeGuideModal').remove()" style="margin-top:15px; width:100%; padding:10px;">Đóng</button>
+        </div>
+    </div>`;
+    document.body.insertAdjacentHTML('beforeend', html);
+}
