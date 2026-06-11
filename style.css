@@ -36,6 +36,10 @@ nav.main-nav a{font-weight:500;font-size:.9rem;padding:8px 10px;border-radius:8p
 nav.main-nav a:hover{background:var(--glass)}
 .actions{display:flex;gap:12px;align-items:center}
 .icon-btn{background:none;border:none;padding:8px;border-radius:8px;cursor:pointer;font-size:1.05rem}
+#btnAuth{display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid rgba(16,24,55,0.12);border-radius:10px;background:transparent;color:inherit}
+#btnAuth:hover{background:rgba(16,24,55,0.04)}
+.auth-label{font-size:.95rem;font-weight:600}
+.auth-card .modal-card{max-width:420px;}
 .cart-badge{position:relative}
 .cart-count{position:absolute;top:-6px;right:-6px;background:#e23;color:#fff;padding:3px 6px;border-radius:999px;font-size:0.7rem;font-weight:700}
 .lang-switch{display:flex;gap:6px;margin-left:8px}
@@ -93,7 +97,7 @@ nav.main-nav a:hover{background:var(--glass)}
 .error{color:#c33;font-size:.95rem}
 
 /* cart panel */
-.cart-panel{position:fixed;right:20px;bottom:20px;background:#fff;border-radius:14px;box-shadow:0 12px 40px rgba(16,24,55,0.12);width:360px;max-height:80vh;overflow:auto;z-index:5000;display:none}
+.cart-panel{position:fixed;right:20px;bottom:20px;background:#fff;border-radius:14px;box-shadow:0 12px 40px rgba(16,24,55,0.12);width:360px;max-height:80vh;overflow:auto;z-index:10020;display:none;pointer-events:auto}
 .cart-panel .head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid #f0f2f6}
 .items{padding:12px}
 .cart-item{display:flex;gap:12px;align-items:center;padding:10px;border-radius:10px}
@@ -101,7 +105,10 @@ nav.main-nav a:hover{background:var(--glass)}
 .cart-item .info{flex:1}
 .cart-item .actions{display:flex;flex-direction:column;gap:6px}
 .cart-footer{padding:12px;border-top:1px solid #f0f2f6}
-.checkout-btn{width:100%;padding:12px;border-radius:10px;border:none;background:var(--accent);font-weight:700}
+.checkout-btn{width:100%;padding:12px;border-radius:10px;border:none;background:var(--accent);font-weight:700;transition:opacity .2s ease, transform .2s ease;cursor:pointer;pointer-events:auto}
+.checkout-btn:disabled{opacity:.6;cursor:not-allowed;pointer-events:auto}
+.cart-panel .apply-promo-btn{cursor:pointer;pointer-events:auto}
+.cart-panel .promo-input{pointer-events:auto}
 
 /* toast */
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:24px;background:#111;color:#fff;padding:10px 14px;border-radius:10px;opacity:0;transition:opacity .3s;z-index:9999}
