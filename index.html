@@ -5,16 +5,24 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>The Linh's Closet — Thuê Thời Trang Cao Cấp</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style_additions.css">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <meta property="og:type" content="website">
-<meta property="og:site_name" content="The Linh's Closet">
-<meta property="og:title" content="The Linh's Closet - Thuê Váy Thiết Kế Cao Cấp">
-<meta property="og:description" content="Khám phá bộ sưu tập đầm dạ hội, váy cưới thiết kế độc quyền. Thuê đồ cao cấp giá tốt nhất Hà Nội.">
-<meta property="og:image" content="https://i.imgur.com/your-image.jpg"> <meta property="og:url" content="https://yourwebsite.com">
+  <meta property="og:site_name" content="The Linh's Closet">
+  <meta property="og:title" content="The Linh's Closet - Thuê Váy Thiết Kế Cao Cấp">
+  <meta property="og:description" content="Khám phá bộ sưu tập đầm dạ hội, váy cưới thiết kế độc quyền. Thuê đồ cao cấp giá tốt nhất Hà Nội.">
 </head>
 <body>
+
+<!-- PROMO BANNER -->
+<div id="promoBanner" class="promo-banner">
+  <span>🎉 <strong>FLASH SALE HÔM NAY</strong> — Giảm 20% với mã <strong style="color:var(--accent)">VIP20</strong></span>
+  <div class="countdown" id="cdTimer"></div>
+  <button class="promo-close-btn" id="promoBannerClose"><i class="fas fa-times"></i></button>
+</div>
 
 <!-- HEADER -->
 <header class="site-header">
@@ -32,13 +40,36 @@
       <a href="#new">Sản Phẩm Mới</a>
       <a href="javascript:void(0)" id="navAbout">Về Chúng Tôi</a>
     </nav>
+
     <div class="actions">
       <button class="icon-btn" id="btnSearch" title="Tìm kiếm"><i class="fas fa-search"></i></button>
 
-      <div class="cart-badge">
+      <!-- Notifications -->
+      <div class="notif-btn-wrap">
+        <button class="icon-btn" id="btnNotif" title="Thông báo" style="position:relative">
+          <i class="fas fa-bell"></i>
+          <span class="notif-badge">2</span>
+        </button>
+        <div class="notif-panel" id="notifPanel">
+          <div class="notif-panel-head">
+            <span>Thông báo</span>
+            <button class="mark-all-read">Đánh dấu đã đọc</button>
+          </div>
+          <div class="notif-list"></div>
+        </div>
+      </div>
+
+      <!-- Wishlist -->
+      <div class="wishlist-badge" style="position:relative">
+        <button class="icon-btn" id="btnWishlist" title="Yêu thích"><i class="fas fa-heart"></i></button>
+        <span id="wishlistCount" class="cart-count" style="display:none">0</span>
+      </div>
+
+      <div class="cart-badge" style="position:relative">
         <button class="icon-btn" id="btnOpenCart" title="Giỏ hàng"><i class="fas fa-shopping-bag"></i></button>
         <span id="cartCount" class="cart-count" style="display:none">0</span>
       </div>
+      <button class="icon-btn" id="btnAuth" title="Đăng nhập"><i class="fas fa-user"></i><span class="auth-label">Đăng nhập</span></button>
 
       <div class="lang-switch">
         <button id="langVI" class="lang active">VI</button>
@@ -47,9 +78,10 @@
     </div>
   </div>
 </header>
+
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-card">
+  <div class="hero-card reveal">
     <h1 data-i18n="hero_title">Thuê đồ hiệu — Tinh tế • Sang trọng • Tiết kiệm</h1>
     <p data-i18n="hero_sub">Cho thuê váy cưới, đầm dạ hội, áo dài &amp; vest chính hãng — chuẩn hàng chính hãng, giặt hấp chuyên nghiệp, giao nhận toàn quốc.</p>
     <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
@@ -57,16 +89,55 @@
       <a href="#new" class="cta-ghost" data-i18n="see_new">Xem Sản Phẩm Mới</a>
     </div>
     <div class="meta" style="margin-top:18px">
-      <span>Phục vụ: Hà Nội</span>
-      <span>Hỗ trợ: 0981176563</span>
+      <span>📍 Phục vụ: Hà Nội</span>
+      <span>📞 Hỗ trợ: 0981176563</span>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hs-num">500+</div><div class="hs-lbl">Sản phẩm</div></div>
+      <div class="hero-stat"><div class="hs-num">2K+</div><div class="hs-lbl">Khách hàng</div></div>
+      <div class="hero-stat"><div class="hs-num">4.9★</div><div class="hs-lbl">Đánh giá</div></div>
+      <div class="hero-stat"><div class="hs-num">24h</div><div class="hs-lbl">Giao hàng</div></div>
     </div>
   </div>
 
   <div class="hero-side">
-    <div class="feature-card"><img src="https://www.bing.com/th/id/OIP.d1bN81-aVL9Rohj8P8mxmQHaHa?w=189&h=211&c=8&rs=1&qlt=90&o=6&cb=ucfimg1&dpr=1.3&pid=3.1&rm=2&ucfimg=1" alt="premium"><div><strong>Thương hiệu chính hãng</strong><div style="color:var(--muted)">Váy, lụa, ren, đính đá</div></div></div>
-    <div class="feature-card"><img src="https://www.bing.com/th/id/OIP.Ux2NbmuG8gC0bPjPB8vL9wHaHa?w=188&h=211&c=8&rs=1&qlt=90&o=6&cb=ucfimg1&dpr=1.3&pid=3.1&rm=2&ucfimg=1" alt="stylist"><div><strong>Tư vấn stylist</strong><div style="color:var(--muted)">Chọn size & phụ kiện phù hợp</div></div></div>
+    <div class="feature-card reveal">
+      <img src="https://www.bing.com/th/id/OIP.d1bN81-aVL9Rohj8P8mxmQHaHa?w=189&h=211&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1" alt="premium">
+      <div>
+        <strong>Thương hiệu chính hãng</strong>
+        <div style="color:var(--muted)">Váy, lụa, ren, đính đá</div>
+      </div>
+    </div>
+    <div class="feature-card reveal">
+      <img src="https://www.bing.com/th/id/OIP.Ux2NbmuG8gC0bPjPB8vL9wHaHa?w=188&h=211&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1" alt="stylist">
+      <div>
+        <strong>Tư vấn stylist</strong>
+        <div style="color:var(--muted)">Chọn size &amp; phụ kiện phù hợp</div>
+      </div>
+    </div>
+    <div class="feature-card reveal" style="background:linear-gradient(135deg,#fff9ec,#fff);border:1px solid rgba(212,175,55,0.2)">
+      <div style="font-size:2rem;padding:4px 8px">🎁</div>
+      <div>
+        <strong style="color:var(--primary)">Ưu đãi hôm nay</strong>
+        <div style="color:var(--muted);font-size:.85rem">Dùng mã <strong style="color:#d4af37">VIP20</strong> giảm 20%</div>
+      </div>
+    </div>
   </div>
 </section>
+
+<!-- TRENDING CHIPS -->
+<div class="trending-strip" id="trendingStrip">
+  <span class="trend-chip active" data-cat="all"><span class="tc-emoji">✨</span>Tất cả</span>
+  <span class="trend-chip" data-cat="cuoi"><span class="tc-emoji">💍</span>Váy Cưới</span>
+  <span class="trend-chip" data-cat="dam"><span class="tc-emoji">🌸</span>Đầm Tiệc</span>
+  <span class="trend-chip" data-cat="aodai"><span class="tc-emoji">🎎</span>Áo Dài</span>
+  <span class="trend-chip" data-cat="vest"><span class="tc-emoji">🤵</span>Vest / Set</span>
+  <span class="trend-chip" data-cat="congchua"><span class="tc-emoji">👑</span>Công Chúa</span>
+  <span class="trend-chip" data-cat="sinhnhat"><span class="tc-emoji">🎂</span>Sinh Nhật</span>
+  <span class="trend-chip" data-cat="nangtho"><span class="tc-emoji">🌿</span>Nàng Thơ</span>
+  <span class="trend-chip" data-cat="rucro"><span class="tc-emoji">🌺</span>Rực Rỡ</span>
+  <span class="trend-chip" data-cat="codien"><span class="tc-emoji">🏛️</span>Cổ Điển</span>
+</div>
 
 <!-- TOOLBAR -->
 <div class="toolbar" id="collections">
@@ -87,14 +158,12 @@
       <option value="rucro">Rực Rỡ</option>
       <option value="truyenthong">Truyền Thống</option>
       <option value="congchua">Công Chúa</option>
-      
     </select>
     <select id="sortBy" class="select">
       <option value="popular">Phổ biến</option>
       <option value="priceAsc">Giá: thấp → cao</option>
       <option value="priceDesc">Giá: cao → thấp</option>
     </select>
-    <!-- <button class="btn-outline" id="btnExport">Xuất CSV</button> -->
   </div>
 </div>
 
@@ -104,73 +173,257 @@
   <div id="productGrid" class="grid"></div>
 </section>
 
+<!-- SEARCH OVERLAY -->
+<div id="searchOverlay" class="search-overlay">
+  <div class="search-overlay-inner">
+    <input id="searchOverlayInput" placeholder="Tìm kiếm sản phẩm...">
+    <div class="search-results-preview" id="searchOverlayResults"></div>
+    <p style="color:rgba(255,255,255,0.4);margin-top:18px;font-size:.85rem">Nhấn ESC để đóng</p>
+  </div>
+  <button class="search-close-btn" id="searchOverlayClose"><i class="fas fa-times"></i></button>
+</div>
+
 <!-- PRODUCT MODAL -->
 <div id="productModal" class="modal" role="dialog" aria-modal="true">
   <div class="modal-card" role="document">
     <div class="gallery">
-      <img id="modalMainImg" src="" alt="ảnh sản phẩm">
+      <img id="modalMainImg" src="" alt="ảnh sản phẩm" style="cursor:zoom-in">
       <div class="thumbs" id="modalThumbs"></div>
     </div>
     <div class="detail">
       <button id="closeModal" class="icon-close" aria-label="Đóng"><i class="fas fa-times"></i></button>
       <h3 id="modalTitle">Tên sản phẩm</h3>
       <div class="meta-line"><div id="modalCategory" class="muted"></div><div id="modalCode" class="muted"></div></div>
-      <p id="modalDesc" class="muted">Mô tả ngắn sản phẩm...</p>
+      <p id="modalDesc" class="muted"></p>
       <div><span class="price" id="modalPrice">0 VNĐ</span></div>
 
-      <form id="rentForm" class="rent-form" onsubmit="return false">
-        <div>
-          <label data-i18n="rent_start">Thuê từ</label>
-          <input type="date" id="rentStart" required />
-        </div>
-        <div>
-          <label data-i18n="rent_end">Đến ngày</label>
-          <input type="date" id="rentEnd" required />
-        </div>
-        <div>
-          <label data-i18n="rent_size">Chọn size</label>
-          <select id="rentSize">
-            <option value="S">S</option>
-            <option value="M" selected>M</option>
-            <option value="L">L</option>
-          </select>
-        </div>
-        <div style="grid-column:span 2">
-          <label data-i18n="rent_note">Ghi chú (tùy chọn)</label>
-          <input id="rentNote" placeholder="VD: Thêm dịch vụ giao nhanh" />
-        </div>
-      </form>
-
-      <div style="margin-top:12px;display:flex;gap:10px">
-        <button class="btn-primary" id="addToCartModal">Thêm vào giỏ hàng</button>
-        <button class="btn-outline" id="btnQuickBook">Đặt nhanh</button>
+      <!-- TABS -->
+      <div class="modal-detail-tabs">
+        <button class="modal-tab-btn active" data-tab="rent">📋 Đặt thuê</button>
+        <button class="modal-tab-btn" data-tab="details">📐 Chi tiết</button>
+        <button class="modal-tab-btn" data-tab="reviews">⭐ Đánh giá</button>
       </div>
-      <p id="modalError" class="error" style="display:none;margin-top:10px"></p>
+
+      <!-- TAB: RENT -->
+      <div class="modal-tab-content active" data-tab="rent">
+        <form id="rentForm" class="rent-form" onsubmit="return false">
+          <div>
+            <label>Thuê từ</label>
+            <input type="date" id="rentStart" required />
+          </div>
+          <div>
+            <label>Đến ngày</label>
+            <input type="date" id="rentEnd" required />
+          </div>
+          <div>
+            <label>Chọn size</label>
+            <select id="rentSize">
+              <option value="S">S</option>
+              <option value="M" selected>M</option>
+              <option value="L">L</option>
+            </select>
+          </div>
+          <div style="grid-column:span 2">
+            <label>Ghi chú (tùy chọn)</label>
+            <input id="rentNote" placeholder="VD: Thêm dịch vụ giao nhanh" />
+          </div>
+        </form>
+
+        <!-- Live Price Box -->
+        <div class="live-price-box" id="livePriceBox">
+          <div class="lp-row">
+            <span class="lp-days">0 ngày thuê</span>
+            <span class="lp-total" style="font-size:1.2rem;font-weight:700;color:var(--primary)">0 VNĐ</span>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;display:flex;gap:10px">
+          <button class="btn-primary" id="addToCartModal">🛍️ Thêm vào giỏ</button>
+          <button class="btn-outline" id="btnQuickBook">⚡ Đặt nhanh</button>
+        </div>
+        <p id="modalError" class="error" style="display:none;margin-top:10px"></p>
+      </div>
+
+      <!-- TAB: DETAILS -->
+      <div class="modal-tab-content" data-tab="details">
+        <table style="width:100%;font-size:.9rem;margin-top:8px">
+          <tr style="border-bottom:1px solid #f5f5f5"><td style="padding:8px 0;color:var(--muted)">Chất liệu</td><td style="font-weight:600">Vải cao cấp, nhập khẩu</td></tr>
+          <tr style="border-bottom:1px solid #f5f5f5"><td style="padding:8px 0;color:var(--muted)">Nguồn gốc</td><td style="font-weight:600">Thiết kế độc quyền</td></tr>
+          <tr style="border-bottom:1px solid #f5f5f5"><td style="padding:8px 0;color:var(--muted)">Tình trạng</td><td style="font-weight:600;color:#2ea44f">Mới 99%</td></tr>
+          <tr><td style="padding:8px 0;color:var(--muted)">Bảo quản</td><td style="font-weight:600">Giặt hấp chuyên nghiệp</td></tr>
+        </table>
+        <div style="margin-top:14px;padding:12px;background:#fafafa;border-radius:10px;font-size:.88rem;">
+          <strong>📏 Bảng size:</strong>
+          <table style="width:100%;margin-top:8px;border-collapse:collapse">
+            <tr style="background:var(--primary);color:#fff"><th style="padding:7px;border-radius:4px">Size</th><th style="padding:7px">Ngực (cm)</th><th style="padding:7px">Eo (cm)</th><th style="padding:7px">Hông (cm)</th></tr>
+            <tr><td style="padding:7px;text-align:center;border-bottom:1px solid #eee">S</td><td style="padding:7px;text-align:center;border-bottom:1px solid #eee">80–84</td><td style="padding:7px;text-align:center;border-bottom:1px solid #eee">62–66</td><td style="padding:7px;text-align:center;border-bottom:1px solid #eee">88–92</td></tr>
+            <tr><td style="padding:7px;text-align:center;border-bottom:1px solid #eee">M</td><td style="padding:7px;text-align:center;border-bottom:1px solid #eee">85–88</td><td style="padding:7px;text-align:center;border-bottom:1px solid #eee">67–70</td><td style="padding:7px;text-align:center;border-bottom:1px solid #eee">93–96</td></tr>
+            <tr><td style="padding:7px;text-align:center">L</td><td style="padding:7px;text-align:center">89–92</td><td style="padding:7px;text-align:center">71–74</td><td style="padding:7px;text-align:center">97–100</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB: REVIEWS -->
+      <div class="modal-tab-content" data-tab="reviews">
+        <div class="review-list" id="reviewList"></div>
+        <div class="write-review" style="margin-top:16px;border-top:1px solid #f0f2f6;padding-top:14px">
+          <strong style="font-size:.9rem">✍️ Viết đánh giá</strong>
+          <div class="star-picker" id="reviewStarPicker" style="margin:10px 0">
+            <span class="sp" data-star="1">★</span>
+            <span class="sp" data-star="2">★</span>
+            <span class="sp" data-star="3">★</span>
+            <span class="sp" data-star="4">★</span>
+            <span class="sp" data-star="5">★</span>
+          </div>
+          <input id="reviewName" placeholder="Tên của bạn (tùy chọn)" style="width:100%;padding:8px 12px;border:1px solid #e6e8ee;border-radius:8px;margin-bottom:8px;font-family:inherit">
+          <textarea id="reviewText" rows="3" placeholder="Chia sẻ trải nghiệm của bạn..."></textarea>
+          <button class="submit-review-btn" id="submitReviewBtn">Gửi đánh giá</button>
+        </div>
+      </div>
+
     </div>
   </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button class="lightbox-nav" id="lightboxPrev"><i class="fas fa-chevron-left"></i></button>
+  <img id="lightboxImg" src="" alt="">
+  <button class="lightbox-nav" id="lightboxNext"><i class="fas fa-chevron-right"></i></button>
+  <button id="lightboxClose"><i class="fas fa-times"></i></button>
 </div>
 
 <!-- CART PANEL -->
 <aside id="cartPanel" class="cart-panel" style="display:none">
   <div class="head"><strong data-i18n="cart_title">Giỏ hàng</strong><button id="closeCartPanel" class="icon-close"><i class="fas fa-times"></i></button></div>
   <div class="items" id="cartItems"></div>
+  <div class="promo-input-row">
+    <input class="promo-input" id="promoInput" placeholder="Mã khuyến mãi...">
+    <button class="apply-promo-btn" id="applyPromoBtn">Áp dụng</button>
+  </div>
+  <div class="promo-msg" id="promoMsg"></div>
   <div class="cart-footer">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div data-i18n="total">Tổng</div><div id="cartTotal">0 VNĐ</div></div>
-    <button class="checkout-btn" id="btnCheckout" data-i18n="checkout">Tiến hành thanh toán</button>
+    <div id="promoSavingLine" class="cart-saving-line" style="display:none">
+      <span>🎁 Tiết kiệm</span><span class="saving-amount"></span>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div data-i18n="total">Tổng cộng</div><div id="cartTotal">0 VNĐ</div></div>
+    <button class="checkout-btn" id="btnCheckout" data-i18n="checkout">💳 Tiến hành thanh toán</button>
   </div>
 </aside>
+
+<div id="authModal" class="modal" role="dialog" aria-modal="true">
+  <div class="modal-card auth-card" role="document" style="max-width:420px; width:100%;">
+    <button id="closeAuthModal" class="icon-close" aria-label="Đóng"><i class="fas fa-times"></i></button>
+    <div style="padding:24px;">
+      <h3 style="margin-bottom:10px">Đăng nhập</h3>
+      <p style="margin-bottom:18px;color:var(--muted);font-size:.95rem">Đăng nhập bằng Google hoặc tạo tài khoản tự động nếu chưa có.</p>
+      <div id="googleSignInDiv" style="width:100%;margin-bottom:16px"></div>
+      <button class="btn-primary" id="autoAccountBtn" style="width:100%;">Tạo tài khoản tự động</button>
+      <p style="margin-top:14px;font-size:.88rem;color:var(--muted);">Tài khoản được lưu cục bộ trên trình duyệt của bạn và sử dụng ngay lập tức.</p>
+    </div>
+  </div>
+</div>
+
+<!-- WISHLIST PANEL -->
+<aside id="wishlistPanel" class="wishlist-panel" style="display:none">
+  <div class="head"><strong>❤️ Sản phẩm yêu thích</strong><button id="closeWishlistPanel" class="icon-close"><i class="fas fa-times"></i></button></div>
+  <div class="items" id="wishlistItems"></div>
+</aside>
+
+<!-- COMPARE BAR -->
+<div class="compare-bar" id="compareBar">
+  <div style="display:flex;align-items:center;gap:14px">
+    <span style="font-weight:600;font-size:.9rem" id="compareCount">0 sản phẩm</span>
+    <div class="compare-slots" id="compareSlots"></div>
+  </div>
+  <div class="compare-actions">
+    <button class="btn-compare-now" onclick="openCompare()">So sánh ngay</button>
+    <button class="btn-clear-compare" onclick="clearCompare()">Xóa tất cả</button>
+  </div>
+</div>
+
+<!-- COMPARE MODAL -->
+<div id="compareModal" class="compare-modal">
+  <div class="compare-table-wrap">
+    <button class="close-compare" id="closeCompareModal"><i class="fas fa-times"></i></button>
+    <h3 style="margin-bottom:16px;color:var(--primary);font-family:'Playfair Display',serif">So sánh sản phẩm</h3>
+    <div style="overflow-x:auto">
+      <table class="compare-table">
+        <tbody id="compareTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
 <!-- TOAST -->
 <div id="toast" class="toast">Đã thêm vào giỏ hàng</div>
 
+<!-- CHAT FAB -->
+<div class="chat-bubble" id="chatBubble">💬 Cần tư vấn? Chat ngay!</div>
+<button class="chat-fab" id="chatFab" title="Chat với chúng tôi"><i class="fas fa-comment-dots"></i></button>
+
+<!-- BACK TO TOP -->
+<button id="backToTop" title="Lên đầu trang"><i class="fas fa-chevron-up"></i></button>
+
+<!-- FLOATING CONTACT -->
+<div class="floating-contact">
+  <a href="https://zalo.me/0981176563" class="contact-btn btn-zalo" target="_blank" title="Chat Zalo"><i class="fa-brands fa-whatsapp"></i></a>
+  <a href="tel:0981176563" class="contact-btn btn-phone" title="Gọi điện"><i class="fas fa-phone"></i></a>
+  <a href="https://www.facebook.com/nguyen.hai.274028" class="contact-btn btn-fb" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+</div>
+
 <script src="script.js"></script>
+<script src="script_additions.js"></script>
+
+<!-- Patch renderProducts to add compare button & new badge -->
+<script>
+const _baseRenderProducts = window.renderProducts;
+window.renderProducts = function(list) {
+  if (typeof _baseRenderProducts === 'function') _baseRenderProducts(list);
+  // Add compare btn & new badge to each card
+  document.querySelectorAll('.card').forEach(card => {
+    const viewBtn = card.querySelector('.view-btn');
+    if (!viewBtn) return;
+    const id = viewBtn.dataset.id;
+    const p = PRODUCTS.find(x => x.id === id);
+    if (!p) return;
+    // New badge
+    const imgDiv = card.querySelector('.img');
+    if (imgDiv && !imgDiv.querySelector('.card-new-badge')) {
+      const seed = id.charCodeAt(0) + id.length;
+      if (seed % 3 === 0) {
+        const badge = document.createElement('div');
+        badge.className = 'card-new-badge';
+        badge.textContent = 'MỚI';
+        imgDiv.prepend(badge);
+      }
+    }
+    // Quick actions overlay
+    if (imgDiv && !imgDiv.querySelector('.quick-actions')) {
+      const qa = document.createElement('div');
+      qa.className = 'quick-actions';
+      qa.innerHTML = `
+        <button class="qa-btn" onclick="event.stopPropagation();window.toggleWishlist('${id}')"><i class="fas fa-heart"></i></button>
+        <button class="qa-btn primary add-btn" data-id="${id}">Thuê ngay</button>
+        <button class="qa-btn" onclick="event.stopPropagation();window.toggleCompare('${id}')"><i class="fas fa-balance-scale"></i></button>
+      `;
+      imgDiv.appendChild(qa);
+    }
+  });
+};
+
+// Re-render after products loaded
+const _origLoad = window.loadProductsFromSheet;
+window.loadProductsFromSheet = async function() {
+  if (typeof _origLoad === 'function') await _origLoad();
+  if (window.renderProducts) renderProducts(PRODUCTS);
+};
+</script>
+
 <!-- FOOTER -->
 <footer class="footer">
   <div class="footer-inner">
-
     <div class="footer-left">
-      <!-- <img src="https://lh3.googleusercontent.com/d/1o2LbG-jAYmdMd3hVhHgUEy0IqjD60NG8" class="footer-logo"> -->
-
       <p class="brand-name">The Linh's Closet</p>
       <p class="footer-mail">huuhails22@gmail.com</p>
       <p class="footer-hotline">Hotline: 098.117.6563</p>
@@ -180,14 +433,9 @@
         <a href="#"><i class="fab fa-tiktok"></i></a>
       </div>
     </div>
-    <div class="footer-col"><h4>Tìm Hiểu:</h4><a href="#">Sản Phẩm &amp; Dịch Vụ</a><a href="#">Về Chúng Tôi</a><a href="#">Tuyển Dụng</a>
-    </div>
-    <div class="footer-col">
-      <h4>Trợ Giúp:</h4>
-      <a href="#">Trung Tâm Trợ Giúp</a>
-    </div>
+    <div class="footer-col"><h4>Tìm Hiểu:</h4><a href="#">Sản Phẩm &amp; Dịch Vụ</a><a href="#">Về Chúng Tôi</a><a href="#">Tuyển Dụng</a></div>
+    <div class="footer-col"><h4>Trợ Giúp:</h4><a href="#">Trung Tâm Trợ Giúp</a></div>
   </div>
-
   <div class="footer-bottom">
     ©2025 by Nguyen Hai.
     <div class="social-row">
@@ -197,6 +445,7 @@
     </div>
   </div>
 </footer>
+
 <!-- ABOUT INFO MODAL -->
 <div id="aboutInfo" class="about-info">
   <div class="about-card">
@@ -209,15 +458,6 @@
     <p><strong>Zalo:</strong><a href="https://zalo.me/0981176563" target="_blank">Nguyễn Hải</a></p>
   </div>
 </div>
-<!-- Contact buttons --> 
-<div class="floating-contact">
-    <a href="https://zalo.me/0981176563" class="contact-btn btn-zalo" target="_blank" title="Chat Zalo"><i class="fa-brands fa-whatsapp"></i></a>
-    <a href="tel:0981176563" class="contact-btn btn-phone" title="Gọi điện"><i class="fas fa-phone"></i></a>
-    <a href="https://www.facebook.com/nguyen.hai.274028" class="contact-btn btn-fb" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-    
-</div>
-<button id="backToTop" title="Lên đầu trang">
-  <i class="fas fa-chevron-up"></i>
-</button>
+
 </body>
 </html>
