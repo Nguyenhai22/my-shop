@@ -9,7 +9,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="The Linh's Closet">
   <meta property="og:title" content="The Linh's Closet - Thuê Váy Thiết Kế Cao Cấp">
@@ -69,8 +68,6 @@
         <button class="icon-btn" id="btnOpenCart" title="Giỏ hàng"><i class="fas fa-shopping-bag"></i></button>
         <span id="cartCount" class="cart-count" style="display:none">0</span>
       </div>
-      <button class="icon-btn" id="btnAuth" title="Đăng nhập"><i class="fas fa-user"></i><span class="auth-label">Đăng nhập</span></button>
-
       <div class="lang-switch">
         <button id="langVI" class="lang active">VI</button>
         <button id="langEN" class="lang">EN</button>
@@ -310,19 +307,6 @@
     <button class="checkout-btn" id="btnCheckout" data-i18n="checkout">💳 Tiến hành thanh toán</button>
   </div>
 </aside>
-
-<div id="authModal" class="modal" role="dialog" aria-modal="true">
-  <div class="modal-card auth-card" role="document" style="max-width:420px; width:100%;">
-    <button id="closeAuthModal" class="icon-close" aria-label="Đóng"><i class="fas fa-times"></i></button>
-    <div style="padding:24px;">
-      <h3 style="margin-bottom:10px">Đăng nhập</h3>
-      <p style="margin-bottom:18px;color:var(--muted);font-size:.95rem">Đăng nhập bằng Google hoặc tạo tài khoản tự động nếu chưa có.</p>
-      <div id="googleSignInDiv" style="width:100%;margin-bottom:16px"></div>
-      <button class="btn-primary" id="autoAccountBtn" style="width:100%;">Tạo tài khoản tự động</button>
-      <p style="margin-top:14px;font-size:.88rem;color:var(--muted);">Tài khoản được lưu cục bộ trên trình duyệt của bạn và sử dụng ngay lập tức.</p>
-    </div>
-  </div>
-</div>
 
 <!-- WISHLIST PANEL -->
 <aside id="wishlistPanel" class="wishlist-panel" style="display:none">
