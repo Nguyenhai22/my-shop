@@ -7,16 +7,13 @@ const GSHEET_ORDER_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzhLyNyaX
 const CART_KEY = 'dollup_cart_v1';
 const WISHLIST_KEY = 'tlc_wishlist_v1';
 const RATING_KEY = 'tlc_ratings_v1';
-const AUTH_USER_KEY = 'tlc_auth_user_v1';
-const LOCAL_USERS_KEY = 'tlc_local_users_v1';
-const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com';
 
 let PRODUCTS = [];
 let lang = localStorage.getItem('dollup_lang') || 'vi';
 let cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
 let wishlist = JSON.parse(localStorage.getItem(WISHLIST_KEY) || '[]');
 let currentProduct = null;
-let currentUser = JSON.parse(localStorage.getItem(AUTH_USER_KEY) || 'null');
+let currentUser = null;
 
 /* ============================================================
    2. CÔNG CỤ HỖ TRỢ (HELPER FUNCTIONS)
@@ -43,107 +40,8 @@ function showToast(msg) {
 
 function saveCart() { localStorage.setItem(CART_KEY, JSON.stringify(cart)); }
 
-function saveAuthUser(user) {
-    localStorage.setItem(AUTH_USER_KEY, JSON.stringify(user));
-    currentUser = user;
-    updateAuthUI();
-}
-
-function clearAuthUser() {
-    localStorage.removeItem(AUTH_USER_KEY);
-    currentUser = null;
-    updateAuthUI();
-}
-
-function getLocalUsers() {
-    return JSON.parse(localStorage.getItem(LOCAL_USERS_KEY) || '{}');
-}
-
-function saveLocalUser(user) {
-    const users = getLocalUsers();
-    users[user.id] = user;
-    localStorage.setItem(LOCAL_USERS_KEY, JSON.stringify(users));
-}
-
-function parseJwt(token) {
-    const base64Url = token.split('.')[1] || '';
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
-    return JSON.parse(jsonPayload);
-}
-
 function updateAuthUI() {
-    const authBtn = document.getElementById('btnAuth');
-    const authLabel = authBtn?.querySelector('.auth-label');
-    const authIcon = authBtn?.querySelector('i');
-    if (currentUser) {
-        if (authLabel) authLabel.textContent = currentUser.name;
-        if (authIcon) authIcon.className = 'fas fa-user-circle';
-        if (authBtn) authBtn.title = t('Đăng xuất', 'Logout');
-    } else {
-        if (authLabel) authLabel.textContent = t('Đăng nhập', 'Login');
-        if (authIcon) authIcon.className = 'fas fa-user';
-        if (authBtn) authBtn.title = t('Đăng nhập', 'Login');
-    }
-}
-
-function showLoginModal() {
-    const authModal = document.getElementById('authModal');
-    authModal?.classList.add('active');
-    renderGoogleButton();
-}
-
-function logoutAuth() {
-    clearAuthUser();
-    showToast(t('Bạn đã đăng xuất', 'Logged out'));
-}
-
-function handleGoogleCredentialResponse(response) {
-    if (!response?.credential) return;
-    const profile = parseJwt(response.credential);
-    const user = {
-        id: `google_${profile.sub}`,
-        type: 'google',
-        name: profile.name || profile.email || t('Người dùng', 'User'),
-        email: profile.email || '',
-        picture: profile.picture || '',
-        createdAt: new Date().toISOString()
-    };
-    saveAuthUser(user);
-    document.getElementById('authModal')?.classList.remove('active');
-    showToast(t('Đăng nhập thành công', 'Login successful'));
-}
-
-function createAutoLocalAccount() {
-    const id = `local_${Date.now()}_${Math.floor(Math.random() * 9000 + 1000)}`;
-    const user = {
-        id,
-        type: 'local',
-        name: `${t('Khách hàng', 'Guest')} ${Math.floor(Math.random() * 9000 + 1000)}`,
-        email: `${id}@tlc.local`,
-        createdAt: new Date().toISOString()
-    };
-    saveLocalUser(user);
-    saveAuthUser(user);
-    document.getElementById('authModal')?.classList.remove('active');
-    showToast(t('Tài khoản đã được tạo', 'Account created'));
-}
-
-function renderGoogleButton() {
-    const btnContainer = document.getElementById('googleSignInDiv');
-    if (!btnContainer) return;
-    btnContainer.innerHTML = '';
-    if (window.google?.accounts?.id) {
-        google.accounts.id.initialize({ client_id: GOOGLE_CLIENT_ID, callback: handleGoogleCredentialResponse });
-        google.accounts.id.renderButton(btnContainer, { theme: 'outline', size: 'large', width: '100%' });
-    } else {
-        setTimeout(renderGoogleButton, 300);
-    }
-}
-
-function initAuth() {
-    updateAuthUI();
-    renderGoogleButton();
+    // No auth UI needed
 }
 
 function getProductRating(productId) {
@@ -348,11 +246,7 @@ async function handleCheckout() {
         showToast(t('Giỏ hàng trống. Vui lòng thêm sản phẩm trước khi thanh toán.', 'Your cart is empty. Add items before checkout.'));
         return;
     }
-    if (!currentUser) {
-        showLoginModal();
-        return showToast(t('Vui lòng đăng nhập trước khi thanh toán.', 'Please login before checkout.'));
-    }
-    const customerName = prompt(t("Nhập tên của bạn:", "Enter your name:"), currentUser.name || "");
+    const customerName = prompt(t("Nhập tên của bạn:", "Enter your name:"), "");
     const customerPhone = prompt(t("Nhập số điện thoại:", "Enter your phone:"), "");
     if (!customerName || !customerPhone) return showToast(t('Vui lòng cung cấp thông tin!', 'Info required!'));
 
@@ -520,11 +414,6 @@ function initEventListeners() {
         checkoutBtn.addEventListener('click', handleCheckout);
         checkoutBtn.disabled = cart.length === 0;
     }
-    document.getElementById('btnAuth')?.addEventListener('click', () => {
-        if (currentUser) logoutAuth(); else showLoginModal();
-    });
-    document.getElementById('closeAuthModal')?.addEventListener('click', () => document.getElementById('authModal')?.classList.remove('active'));
-    document.getElementById('autoAccountBtn')?.addEventListener('click', createAutoLocalAccount);
     const promoBtn = document.getElementById('applyPromoBtn');
     if (promoBtn) {
         promoBtn.disabled = false;
@@ -551,7 +440,6 @@ function initEventListeners() {
    8. KHỞI CHẠY (ON LOAD)
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
-    initAuth();
     initEventListeners();
     setLang(lang);
     loadProductsFromSheet();
